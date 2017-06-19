@@ -171,7 +171,7 @@ void gds_dump_wait_request(gds_wait_request_t *request, size_t count);
 void gds_dump_param(CUstreamBatchMemOpParams *param);
 void gds_dump_params(unsigned int nops, CUstreamBatchMemOpParams *params);
 int gds_fill_membar(CUstreamBatchMemOpParams *param, int flags);
-int gds_fill_inlcpy(CUstreamBatchMemOpParams *param, void *ptr, void *data, size_t n_bytes, int flags);
+int gds_fill_inlcpy(CUstreamBatchMemOpParams *param, void *ptr, const void *data, size_t n_bytes, int flags);
 int gds_fill_poke(CUstreamBatchMemOpParams *param, uint32_t *ptr, uint32_t value, int flags);
 int gds_fill_poll(CUstreamBatchMemOpParams *param, uint32_t *ptr, uint32_t magic, int cond_flag, int flags);
 int gds_stream_batch_ops(CUstream stream, int nops, CUstreamBatchMemOpParams *params, int flags);
