@@ -55,7 +55,10 @@ Manual](https://www.mellanox.com/related-docs/MFT/MFT_user_manual_4_6_0.pdf).
 Build
 ===
 Git repository does not include autotools files. The first time the directory
-must be configured by running autogen.sh
+must be configured by running:
+```shell
+$ autoreconf -if
+```
 
 As an example, the build.sh script is provided. You should modify it
 according to the desired destination paths as well as the location
