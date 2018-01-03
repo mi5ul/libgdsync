@@ -278,7 +278,7 @@ void gds_dump_param(CUstreamBatchMemOpParams *param)
                 gds_info("INLINECOPY addr:%p alias:%p src:%p len=%zu flags:%08x\n",
                         (void*)param->writeMemory.address,
                         (void*)param->writeMemory.alias,
-                        (void*)param->writeMemory.srcData,
+                        (void*)param->writeMemory.src,
                         param->writeMemory.byteCount,
                         param->writeMemory.flags);
                 break;
@@ -322,10 +322,10 @@ int gds_fill_membar(CUstreamBatchMemOpParams *param, int flags)
         } else {
                 if (flags & GDS_MEMBAR_DEFAULT) {
                         param->operation = CU_STREAM_MEM_OP_MEMORY_BARRIER;
-                        param->memoryBarrier.flags = CU_STREAM_MEMORY_WRITE_FENCE_DEFAULT;
+                        param->memoryBarrier.flags = CU_STREAM_MEMORY_BARRIER_WRITE_FENCE;
                 } else if (flags & GDS_MEMBAR_SYS) {
                         param->operation = CU_STREAM_MEM_OP_MEMORY_BARRIER;
-                        param->memoryBarrier.flags = CU_STREAM_MEMORY_WRITE_FENCE_SYS;
+                        param->memoryBarrier.flags = CU_STREAM_MEMORY_BARRIER_WRITE_FENCE_SYS;
                 } else {
                         gds_err("error, unsupported membar\n");
                         retcode = EINVAL;
@@ -360,7 +360,7 @@ static int gds_fill_inlcpy(CUstreamBatchMemOpParams *param, CUdeviceptr addr, co
 
         param->operation = CU_STREAM_MEM_OP_WRITE_MEMORY;
         param->writeMemory.byteCount = n_bytes;
-        param->writeMemory.srcData = const_cast<void *>(data);
+        param->writeMemory.src = const_cast<void *>(data);
         param->writeMemory.address = dev_ptr;
         param->writeMemory.flags = CU_STREAM_WRITE_MEMORY_NO_MEMORY_BARRIER;
         if (need_barrier)
@@ -368,7 +368,7 @@ static int gds_fill_inlcpy(CUstreamBatchMemOpParams *param, CUdeviceptr addr, co
         gds_dbg("op=%d addr=%p src=%p size=%zd flags=%08x\n",
                 param->operation,
                 (void*)param->writeMemory.address,
-                param->writeMemory.srcData,
+                param->writeMemory.src,
                 param->writeMemory.byteCount,
                 param->writeMemory.flags);
 #else
